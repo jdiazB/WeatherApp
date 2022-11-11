@@ -36,22 +36,23 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     // por esto no cargaba no tenia un valor predefinido
     //getData();
-    getdata3("Lima");
+    //getdata3("Lima");
+    getData();
 
 
 
   }
 
-  // getData(){
-  //   _apiService.getDataLocation().then((value) {
-  //     if(value != null){
-  //       modelWeather = value;
-  //       setState(() {
-  //
-  //       });
-  //   }
-  //
-  // });}
+  getData(){
+    _apiService.getDataLocation().then((value) {
+      if(value != null){
+        modelWeather = value;
+        setState(() {
+
+        });
+    }
+
+  });}
   getdata3(String city){
     _apiService.getData2(city).then((value) {
       if(value != null){
@@ -99,7 +100,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(onPressed: () {
-            _apiService.getDataLocation();
+            getData();
 
           }, icon: Icon(Icons.location_on)),
         ],

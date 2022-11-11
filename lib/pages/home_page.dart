@@ -1,7 +1,6 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:untitled5_clase10/model/weathermodel.dart';
 import 'package:untitled5_clase10/service/api_service.dart';
 import 'package:http/http.dart' as http;
@@ -17,15 +16,17 @@ class HomePage extends StatefulWidget  {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isLoading = true;
+  //bool isLoading = true;
   ModelWeather? modelWeather;
   final APIService _apiService = APIService();
 
   final TextEditingController _searchController = TextEditingController();
   final _keyForm = GlobalKey<FormState>();
 
-  String cityName = "";
-  String country = "";
+  // String cityName = "";
+  // String country = "";
+  // double temp =0;
+
 
 
 
@@ -34,53 +35,54 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     // por esto no cargaba no tenia un valor predefinido
-    getData();
-    getData2("Lima");
+    //getData();
+    getdata3("Lima");
+
+
 
   }
 
-  getData(){
-    _apiService.getDataLocation().then((value) {
+  // getData(){
+  //   _apiService.getDataLocation().then((value) {
+  //     if(value != null){
+  //       modelWeather = value;
+  //       setState(() {
+  //
+  //       });
+  //   }
+  //
+  // });}
+  getdata3(String city){
+    _apiService.getData2(city).then((value) {
       if(value != null){
         modelWeather = value;
         setState(() {
 
         });
-    }
-
-  });
-
-
-
-}
-
-
-   getData2(String city) async {
-     //isLoading = true;
-     //setState(() {
-
-    // });
-     Uri _url = Uri.parse("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=83b78eb09a468db6111b40317f680aa4");
-     http.Response response = await http.get(_url);
-     if(response.statusCode ==200){
-      Map myMap = json.decode(response.body);
-      //temp = myMap["main"]["temp"];
-
-      cityName=myMap["name"];
-      country=myMap["sys"]["country"];
-      //isLoading= false;
-      setState(() {});
-
-     }
-   }
-  temperatura(double temp){
-    if(modelWeather!.name ==_searchController.text){
-       temp = modelWeather!.main.temp;
-      temp = temp -273.15;
-      return modelWeather!.main.temp;
       }
-    
+    },);
   }
+
+
+
+   // getData2(String city) async {
+   //   //isLoading = true;
+   //   //setState(() {
+   //
+   //  // });
+   //   Uri _url = Uri.parse("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=83b78eb09a468db6111b40317f680aa4");
+   //   http.Response response = await http.get(_url);
+   //   if(response.statusCode ==200){
+   //    Map myMap = json.decode(response.body);
+   //    //temp = myMap["main"]["temp"];
+   //
+   //    cityName=myMap["name"];
+   //    country=myMap["sys"]["country"];
+   //    //isLoading= false;
+   //    setState(() {});
+   //
+   //   }
+   // }
 
 
   @override
@@ -178,13 +180,13 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       width: double.infinity,
                       height: 48.0,
-                      child: ElevatedButton(onPressed: () {
+                      child: ElevatedButton(onPressed: ()  {
 
 
                         if(_keyForm.currentState!.validate()){
 
                           String city = _searchController.text;
-                          getData2(city);
+                           getdata3(city);
 
                         }
                         return _searchController.clear();
